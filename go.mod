@@ -1,4 +1,4 @@
-module cart
+module github.com/caihuahang8/cart
 
 go 1.15
 
