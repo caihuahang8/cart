@@ -1,12 +1,13 @@
 package repository
 
 import (
-	"cart/domain/model"
 	"errors"
+	"github.com/caihuahang8/cart/domain/model"
 	"github.com/jinzhu/gorm"
 )
 
 type ICartRepository interface {
+	InitTable() error
 	CreateCart(*model.Cart) (int64, error)
 	DeleteCart(int64) error
 	FindAll(int64) ([]model.Cart, error)
@@ -17,6 +18,11 @@ type ICartRepository interface {
 func NewCartRepository(db *gorm.DB) ICartRepository {
 	return &CartRepository{mysqlDb: db}
 }
+
+////初始化表
+//func (u *CartRepository) InitTable() error {
+//	return u.mysqlDb.CreateTable(&model.Cart{}).Error
+//}
 
 type CartRepository struct {
 	mysqlDb *gorm.DB
@@ -33,7 +39,7 @@ func (u *CartRepository) IncrNum(cartId int64, num int64) error {
 }
 
 func (u *CartRepository) FindAll(userId int64) (cartAll []model.Cart, err error) {
-	return cartAll, u.mysqlDb.Where("user_id = ?", userId).Find(cartAll).Error
+	return cartAll, u.mysqlDb.Where("user_id = ?", userId).Find(&cartAll).Error
 }
 
 func (u *CartRepository) DeleteCart(cartId int64) error {

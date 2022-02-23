@@ -1,8 +1,8 @@
 package service
 
 import (
-	"cart/domain/model"
-	"cart/domain/repository"
+	"github.com/caihuahang8/cart/domain/model"
+	"github.com/caihuahang8/cart/domain/repository"
 )
 
 type ICartDateService interface {
@@ -15,6 +15,11 @@ type ICartDateService interface {
 
 type CartDateService struct {
 	CartRepository repository.ICartRepository
+}
+
+//创建
+func NewCartDataService(cartRepository repository.ICartRepository) ICartDateService {
+	return &CartDateService{cartRepository}
 }
 
 func (c *CartDateService) AddCartDate(cart *model.Cart) (cartId int64, err error) {
